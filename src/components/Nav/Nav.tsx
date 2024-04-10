@@ -20,22 +20,8 @@ export const Nav = () => {
       <Container>
         <div className="Nav__content">
           <Link to="/">
-            <h1>FitPulse</h1>
+            <h1>Punkweb</h1>
           </Link>
-          {user && (
-            <>
-              <Link to="/diet">
-                <Button color="primary" size="sm">
-                  Diet
-                </Button>
-              </Link>
-              <Link to="/exercises">
-                <Button color="primary" size="sm">
-                  Exercise
-                </Button>
-              </Link>
-            </>
-          )}
           <div className="Nav__spacer"></div>
           {user ? (
             <>

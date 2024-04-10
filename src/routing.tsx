@@ -1,8 +1,6 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { LoginRoute, ProfileRoute, SignUpRoute, useAuth } from './auth';
-import { DietRoute, FoodListRoute } from './diet';
-import { ExerciseDetailRoute, ExerciseListRoute } from './exercises';
 import { HomeRoute } from './routes';
 
 export type RouteGuard = {
@@ -59,38 +57,6 @@ export const routes: RouteObject[] = [
         element: (
           <ProtectedRoute>
             <ProfileRoute />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/diet',
-        element: (
-          <ProtectedRoute>
-            <DietRoute />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/diet/foods',
-        element: (
-          <ProtectedRoute>
-            <FoodListRoute />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/exercises',
-        element: (
-          <ProtectedRoute>
-            <ExerciseListRoute />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/exercises/:id',
-        element: (
-          <ProtectedRoute>
-            <ExerciseDetailRoute />
           </ProtectedRoute>
         ),
       },
