@@ -1,0 +1,86 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.ArtistDetailRoute {
+  &__header {
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+
+    &__content {
+      color: white;
+
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0;
+      padding: 0 1rem;
+    }
+
+    &__name {
+      color: white;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 2px black;
+    }
+
+    .Tabs {
+      color: white;
+
+      .TabItem {
+        color: white;
+        font-size: 1rem;
+
+        &--active {
+          border-width: 4px;
+        }
+      }
+    }
+  }
+
+  &__image {
+    height: 450px;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      background-image: linear-gradient(to top, black, rgba(0, 0, 0, 0));
+      position: absolute;
+      height: 100px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    img {
+      height: 450px;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  &__content {
+    padding: 1rem;
+  }
+
+  &__topTracks {
+    li {
+      align-items: center;
+      border-bottom: 2px solid $border;
+      cursor: pointer;
+      display: flex;
+      gap: 1rem;
+
+      img {
+        height: 48px;
+        width: 48px;
+      }
+    }
+
+    &--active {
+      border-color: oc-get-color('primary', '9') !important;
+      color: oc-get-color('primary', '9') !important;
+    }
+  }
+}

@@ -1,0 +1,101 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.AudioPlayer {
+  background-color: white;
+  border-top: 1px solid $border;
+  color: black;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 1);
+  min-height: 124px;
+  width: 100%;
+
+  &__container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1280px;
+    min-height: 100%;
+    padding: 0 1rem;
+    width: 100%;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+  }
+
+  &__image {
+    height: 96px;
+    width: 96px;
+    margin-right: 2rem;
+  }
+
+  &__controls {
+    flex: 1;
+    margin: 0 2rem;
+  }
+
+  &__buttons {
+    position: relative;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__trackerContainer {
+    position: relative;
+    width: 100%;
+    min-width: 120px;
+    flex: 1;
+    margin: 0 1.5rem;
+    padding: 1rem 0;
+    height: 5px;
+  }
+
+  #tracker {
+    background-color: $border;
+    height: 5px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 2.5px);
+    width: 100%;
+  }
+
+  #currentTime,
+  #totalTime {
+    text-align: center;
+    width: 60px;
+  }
+
+  #tracked {
+    height: 5px;
+    background-color: oc-get-color('primary', '9');
+    width: 20%;
+    position: absolute;
+    top: calc(50% - 2.5px);
+    left: 0;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .AudioPlayer {
+    min-height: 90px;
+    &__controls {
+      margin: 0;
+    }
+    &__buttons {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .hideOnMobile {
+    display: none !important;
+  }
+}

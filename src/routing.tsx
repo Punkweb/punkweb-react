@@ -1,7 +1,7 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 import { AppLayout } from './AppLayout';
 import { LoginRoute, ProfileRoute, SignUpRoute, useAuth } from './auth';
-import { HomeRoute } from './routes';
+import { AlbumDetailRoute, ArtistDetailRoute, ArtistListRoute } from './music';
 
 export type RouteGuard = {
   children: React.ReactNode;
@@ -34,7 +34,15 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: '/',
-        element: <HomeRoute />,
+        element: <ArtistListRoute />,
+      },
+      {
+        path: '/artists/:slug',
+        element: <ArtistDetailRoute />,
+      },
+      {
+        path: '/albums/:slug',
+        element: <AlbumDetailRoute />,
       },
       {
         path: '/login',

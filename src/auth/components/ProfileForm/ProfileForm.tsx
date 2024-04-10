@@ -35,7 +35,7 @@ export const ProfileForm = () => {
 
   return (
     <form className="ProfileForm" onSubmit={profileForm.handleSubmit(onSubmit)}>
-      <Input fluid id="email" label="Email" readOnly value={user?.email} />
+      <Input fluid id="username" label="Username" readOnly value={user?.username} />
       <Input
         fluid
         id="first_name"

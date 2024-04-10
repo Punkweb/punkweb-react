@@ -17,8 +17,6 @@ export const SignUpForm = () => {
       .catch((error) => {
         if (error.response?.data.username) {
           signUpForm.setError('username', { message: error.response.data.username[0] });
-        } else if (error.response?.data.email) {
-          signUpForm.setError('email', { message: error.response.data.email[0] });
         } else if (error.response?.data.non_field_errors) {
           signUpForm.setError('root', {
             message: error.response.data.non_field_errors[0],
@@ -43,15 +41,6 @@ export const SignUpForm = () => {
         {...signUpForm.register('username', { required: true })}
       />
       {signUpForm.formState.errors.username && <p className="error">{signUpForm.formState.errors.username.message}</p>}
-      <Input
-        fluid
-        id="email"
-        invalid={!!signUpForm.formState.errors.email}
-        label="Email"
-        type="email"
-        {...signUpForm.register('email', { required: true })}
-      />
-      {signUpForm.formState.errors.email && <p className="error">{signUpForm.formState.errors.email.message}</p>}
       <Input
         fluid
         id="password1"

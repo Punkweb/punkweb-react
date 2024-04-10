@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import './AppLayout.scss';
 import { Nav } from './components';
+import { AudioPlayer } from './music';
 
 export const AppLayout = () => {
   return (
@@ -11,6 +12,7 @@ export const AppLayout = () => {
       <main>
         <Outlet />
       </main>
+      <AudioPlayer />
     </>
   );
 };

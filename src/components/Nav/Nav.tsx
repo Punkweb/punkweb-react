@@ -22,6 +22,16 @@ export const Nav = () => {
           <Link to="/">
             <h1>Punkweb</h1>
           </Link>
+          <Link to="/">
+            <Button color="primary" size="sm">
+              Music
+            </Button>
+          </Link>
+          <a href="/board/">
+            <Button color="primary" size="sm">
+              Forum
+            </Button>
+          </a>
           <div className="Nav__spacer"></div>
           {user ? (
             <>
