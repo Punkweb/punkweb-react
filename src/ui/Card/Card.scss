@@ -1,0 +1,13 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.Card {
+  background-color: white;
+  border: 1px solid $border;
+  min-width: 16rem;
+  padding: 1rem;
+
+  &.Card--fluid {
+    width: 100%;
+  }
+}

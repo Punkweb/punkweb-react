@@ -1,0 +1,80 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.DietRoute {
+  &__header {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  &__foodLog {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    &__header {
+      align-items: center;
+      display: flex;
+      gap: 1rem;
+    }
+
+    &__empty {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+  }
+
+  &__meal {
+    &__totals {
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__macroCharts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  &__chart {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@include breakpoint('sm') {
+  .DietRoute {
+    &__header {
+      align-items: flex-start;
+      flex-direction: column-reverse;
+    }
+
+    &__foodLog {
+      align-items: flex-end;
+
+      &__header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    &__macroCharts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .DietTargetCard {
+    width: 100%;
+  }
+}
