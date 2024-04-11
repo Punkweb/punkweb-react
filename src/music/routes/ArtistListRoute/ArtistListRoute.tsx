@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ListResponse, http } from '~/http';
 import { Artist } from '~/types';
 import { Card, Container } from '~/ui';
+import './ArtistListRoute.scss';
 
 export const ArtistListRoute = () => {
   const [artists, setArtists] = React.useState<Artist[]>([]);
@@ -20,11 +21,11 @@ export const ArtistListRoute = () => {
           <Card fluid>
             <h3>Artists</h3>
             <hr />
-            <div className="grid grid-columns-4 gap-4">
+            <div className="ArtistListRoute__list">
               {artists.map((artist) => (
                 <div key={artist.id}>
-                  <img src={artist.thumbnail || ''} alt={artist.name} />
                   <Link to={`/artists/${artist.slug}`}>
+                    <img src={artist.thumbnail || ''} alt={artist.name} />
                     <h5>{artist.name}</h5>
                   </Link>
                   <p>{artist.genre}</p>

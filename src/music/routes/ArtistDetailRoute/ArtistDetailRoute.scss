@@ -83,4 +83,18 @@
       color: oc-get-color('primary', '9') !important;
     }
   }
+
+  &__albums {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@include breakpoint('md') {
+  .ArtistDetailRoute {
+    &__albums {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 }

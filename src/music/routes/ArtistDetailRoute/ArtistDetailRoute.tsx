@@ -11,6 +11,7 @@ export const ArtistDetailRoute = () => {
   const [artist, setArtist] = React.useState<Artist>();
   const [albums, setAlbums] = React.useState<Album[]>([]);
   const [top10, setTop10] = React.useState<Audio[]>([]);
+  const [showMoreSongs, setShowMoreSongs] = React.useState(false);
 
   const { slug } = useParams();
   const audio = useAudioPlayer();
@@ -72,9 +73,9 @@ export const ArtistDetailRoute = () => {
               </div>
             </div>
             <div className="ArtistDetailRoute__content">
-              <h3>Popular</h3>
+              <h3 className="mb-4">Popular</h3>
               <ul className="ArtistDetailRoute__topTracks">
-                {top10.map((track, index) => (
+                {top10.slice(0, showMoreSongs ? 10 : 5).map((track, index) => (
                   <li
                     key={track.id}
                     className={clsx({
@@ -89,13 +90,25 @@ export const ArtistDetailRoute = () => {
                   </li>
                 ))}
               </ul>
-              <h3>Albums</h3>
+              {top10 && top10.length > 5 && (
+                <Button
+                  className="mt-4"
+                  color="primary"
+                  onClick={() => {
+                    setShowMoreSongs(!showMoreSongs);
+                  }}
+                  variant="ghost"
+                >
+                  Show {showMoreSongs ? 'Less' : 'More'}
+                </Button>
+              )}
+              <h3 className="my-4">Albums</h3>
               <hr />
-              <div className="grid grid-columns-4">
+              <div className="ArtistDetailRoute__albums">
                 {albums.map((album) => (
                   <div key={album.id}>
-                    <img src={album.thumbnail || ''} alt={album.title} />
                     <Link to={`/albums/${album.slug}`}>
+                      <img src={album.thumbnail || ''} alt={album.title} />
                       <h5>{album.title}</h5>
                     </Link>
                     <p>{album.release_date}</p>

@@ -9,7 +9,7 @@ export const AppLayout = () => {
       <header>
         <Nav />
       </header>
-      <main>
+      <main className="main">
         <Outlet />
       </main>
       <AudioPlayer />

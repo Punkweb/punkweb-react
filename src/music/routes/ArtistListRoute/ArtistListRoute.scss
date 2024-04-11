@@ -1,0 +1,18 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.ArtistListRoute {
+  &__list {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@include breakpoint('md') {
+  .ArtistListRoute {
+    &__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

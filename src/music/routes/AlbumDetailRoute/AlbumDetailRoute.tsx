@@ -1,9 +1,11 @@
+import clsx from 'clsx';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ListResponse, http } from '~/http';
 import { Album, Audio } from '~/types';
 import { Card, Container } from '~/ui';
 import { useAudioPlayer } from '../../context';
+import './AlbumDetailRoute.scss';
 
 export const AlbumDetailRoute = () => {
   const [album, setAlbum] = React.useState<Album>();
@@ -54,7 +56,7 @@ export const AlbumDetailRoute = () => {
     <>
       <Container>
         <Card className="my-8" fluid>
-          <div className="flex align-end gap-8">
+          <div className="AlbumDetailRoute__header">
             <div>
               <img src={album.thumbnail || ''} alt={album.title} />
             </div>
@@ -69,23 +71,36 @@ export const AlbumDetailRoute = () => {
               </div>
             </div>
           </div>
-          <table>
+          <table className="AlbumDetailRoute__table">
+            <colgroup>
+              <col width="50px" />
+              <col />
+              <col width="100px" />
+            </colgroup>
             <thead>
               <tr>
-                <th>#</th>
+                <th className="text-center">#</th>
                 <th>Title</th>
-                <th>
+                <th className="text-center">
                   <span className="material-symbols-outlined">schedule</span>
                 </th>
               </tr>
+            </thead>
+            <tbody>
               {tracks.map((track, index) => (
-                <tr key={track.id} onClick={() => clickSong(index)}>
+                <tr
+                  key={track.id}
+                  className={clsx({
+                    'AlbumDetailRoute__table--active': audio.playQueue[0]?.id === track.id,
+                  })}
+                  onClick={() => clickSong(index)}
+                >
                   <td>{track.track_num}</td>
                   <td>{track.title}</td>
                   <td>{display(track.duration)}</td>
                 </tr>
               ))}
-            </thead>
+            </tbody>
           </table>
         </Card>
       </Container>

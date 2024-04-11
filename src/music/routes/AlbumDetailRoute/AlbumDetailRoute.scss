@@ -1,0 +1,53 @@
+@import '~/scss/mixins';
+@import '~/scss/variables';
+
+.AlbumDetailRoute {
+  &__header {
+    align-items: end;
+    display: flex;
+    gap: 2rem;
+  }
+
+  &__table {
+    border: none;
+    text-align: left;
+    width: 100%;
+
+    &--active {
+      border-color: oc-get-color('primary', '9') !important;
+      color: oc-get-color('primary', '9') !important;
+    }
+
+    thead {
+      tr {
+        th {
+          font-size: 0.875rem;
+          padding: 1rem;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 2px solid $border;
+        cursor: pointer;
+
+        td {
+          font-size: 1rem;
+          padding: 1rem;
+        }
+      }
+    }
+  }
+}
+
+@include breakpoint('md') {
+  .AlbumDetailRoute {
+    &__header {
+      align-items: start;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+}

@@ -11,6 +11,7 @@ export type AudioPlayerContextType = {
   playQueue: AudioType[];
   next: () => void;
   setPlayQueue: (playQueue: AudioType[]) => void;
+  setTime: (time: number) => void;
   trackPercent: number;
 };
 
@@ -31,8 +32,6 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
   const instance = React.useRef<HTMLAudioElement>();
 
   React.useEffect(() => {
-    console.log('playQueue', playQueue);
-
     if (playQueue.length === 0) {
       destroyAudio();
       return;
@@ -41,20 +40,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     load(playQueue[0].file);
   }, [playQueue]);
 
-  function load(file: string) {
-    console.log('loading', file);
-    destroyAudio();
-    createAudio();
-    if (!instance.current) {
-      return;
-    }
-    instance.current.pause();
-    instance.current.src = file;
-    instance.current.load();
-  }
-
   function destroyAudio() {
-    console.log('destroying audio');
     if (!instance.current) {
       return;
     }
@@ -67,54 +53,21 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     try {
       instance.current.src = '';
     } finally {
-      // clearPlayTimeouts();
       instance.current = undefined;
     }
   }
 
   function createAudio() {
-    console.log('creating audio');
     if (!instance.current) {
       instance.current = new Audio();
       // instance.current.crossOrigin = 'anonymous';
       instance.current.preload = 'metadata';
       bind('canplaythrough', () => {
         play();
-        // if (!isDevMode()) {
-        //   this.clearPlayTimeouts();
-        //   this.addPlayTimeout(this._playQueue[0]);
-        // }
       });
       bind('ended', () => {
-        // if (!isDevMode()) {
-        //   let metadata: any = {
-        //     song_id: this._playQueue[0].id,
-        //     song_length: this._duration,
-        //     user_id: null,
-        //     user_is_staff: false,
-        //   };
-        //   if (this.user) {
-        //     metadata.user_id = this.user.id;
-        //     if (this.user.is_staff || this.user.is_superuser) {
-        //       metadata.user_is_staff = true;
-        //     }
-        //   }
-        //   let songFinished = this.api.AnalyticsEvent.create({
-        //     category: 'music_engagement',
-        //     action: 'finished_song',
-        //     label: `${this._playQueue[0].artist_name}: ${this._playQueue[0].title}`,
-        //     metadata: metadata,
-        //   }).subscribe(
-        //     () => {},
-        //     () => {},
-        //     () => {
-        //       songFinished.unsubscribe();
-        //     },
-        //   );
-        // }
         setHistory([...history, playQueue[0]]);
-        playQueue.shift();
-        setPlayQueue(playQueue);
+        setPlayQueue((prevPlayQueue) => prevPlayQueue.slice(1));
       });
       bind('timeupdate', () => {
         if (!instance.current) {
@@ -127,11 +80,21 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     }
   }
 
+  function load(file: string) {
+    destroyAudio();
+    createAudio();
+    if (!instance.current) {
+      return;
+    }
+    instance.current.pause();
+    instance.current.src = file;
+    instance.current.load();
+  }
+
   function pause() {
     if (!instance.current) {
       return;
     }
-    console.log('playing');
     instance.current.pause();
   }
 
@@ -139,11 +102,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     if (!instance.current) {
       return;
     }
-    console.log('playing');
     instance.current.play();
-    // if (!isDevMode()) {
-    //   this.addPlayTimeout(this._playQueue[0]);
-    // }
   }
 
   function back() {
@@ -163,6 +122,13 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
   function next() {
     setHistory([...history, playQueue[0]]);
     setPlayQueue((prevPlayQueue) => prevPlayQueue.slice(1));
+  }
+
+  function setTime(time: number) {
+    if (!instance.current) {
+      return;
+    }
+    instance.current.currentTime = time;
   }
 
   function bind(eventName: string, eventCallback: any) {
@@ -185,6 +151,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
         play,
         playQueue,
         setPlayQueue,
+        setTime,
         trackPercent,
       }}
     >

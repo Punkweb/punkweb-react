@@ -1,8 +1,7 @@
-import { Audio } from '~/types';
-import { useAudioPlayer } from '../../context/AudioPlayerContext';
-import { IconButton } from '~/ui';
-import './AudioPlayer.scss';
 import { Link } from 'react-router-dom';
+import { IconButton } from '~/ui';
+import { useAudioPlayer } from '../../context/AudioPlayerContext';
+import './AudioPlayer.scss';
 
 export const AudioPlayer = () => {
   const audio = useAudioPlayer();
@@ -21,7 +20,13 @@ export const AudioPlayer = () => {
   }
 
   function clickTrackBar(e: any) {
-    console.log('click track bar', e);
+    let target = e.target;
+    let x = e.clientX - target.offsetLeft;
+    let y = e.clientY - target.offsetTop;
+    let width = target.clientWidth;
+    let clickPercent = x / width;
+    let toDuration = audio.duration * clickPercent;
+    audio.setTime(toDuration);
   }
 
   if (audio.playQueue.length === 0) {
@@ -65,8 +70,8 @@ export const AudioPlayer = () => {
           <div className="AudioPlayer__flex">
             <div id="currentTime">{timeFormat(audio.currentTime)}</div>
             <div className="AudioPlayer__trackerContainer" onClick={(e) => clickTrackBar(e)}>
-              <div id="tracker"></div>
-              <div id="tracked" style={{ width: `${audio.trackPercent}%` }}></div>
+              <div id="tracker" onClick={(e) => e.stopPropagation()}></div>
+              <div id="tracked" onClick={(e) => e.stopPropagation()} style={{ width: `${audio.trackPercent}%` }}></div>
             </div>
             <div id="totalTime">{timeFormat(audio.duration)}</div>
           </div>
