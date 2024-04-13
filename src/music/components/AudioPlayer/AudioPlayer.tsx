@@ -22,7 +22,6 @@ export const AudioPlayer = () => {
   function clickTrackBar(e: any) {
     let target = e.target;
     let x = e.clientX - target.offsetLeft;
-    let y = e.clientY - target.offsetTop;
     let width = target.clientWidth;
     let clickPercent = x / width;
     let toDuration = audio.duration * clickPercent;
@@ -40,40 +39,45 @@ export const AudioPlayer = () => {
           <div className="AudioPlayer__image">
             <img src={audio.playQueue[0].album_thumbnail || ''} alt={audio.playQueue[0].title} />
           </div>
-          <div>
-            <div>
-              <Link to={`/albums/${audio.playQueue[0].album_slug}`}>{audio.playQueue[0].title}</Link>
-            </div>
-            <div>
-              By <Link to={`/artists/${audio.playQueue[0].artist_slug}`}>{audio.playQueue[0].artist_name}</Link>
-            </div>
+          <div className="AudioPlayer__links">
+            <Link className="AudioPlayer__title" to={`/albums/${audio.playQueue[0].album_slug}`}>
+              {audio.playQueue[0].title}
+            </Link>
+            <Link className="AudioPlayer__artist" to={`/artists/${audio.playQueue[0].artist_slug}`}>
+              {audio.playQueue[0].artist_name}
+            </Link>
           </div>
         </div>
         <div className="AudioPlayer__controls">
           <div className="AudioPlayer__buttons">
             <IconButton onClick={() => audio.back()}>
-              <span className="material-symbols-outlined">arrow_back_ios</span>
+              <span className="material-symbols-outlined">skip_previous</span>
             </IconButton>
-            {audio.instance.current?.paused ? (
-              <IconButton onClick={() => audio.play()}>
-                <span className="material-symbols-outlined">play_arrow</span>
-              </IconButton>
-            ) : (
-              <IconButton onClick={() => audio.pause()}>
-                <span className="material-symbols-outlined">pause</span>
-              </IconButton>
-            )}
+            <IconButton
+              onClick={() => {
+                if (audio.instance.current?.paused) {
+                  audio.play();
+                } else {
+                  audio.pause();
+                }
+              }}
+              variant="raised"
+            >
+              <span className="material-symbols-outlined">
+                {audio.instance.current?.paused ? 'play_arrow' : 'pause'}
+              </span>
+            </IconButton>
             <IconButton onClick={() => audio.next()}>
-              <span className="material-symbols-outlined">arrow_forward_ios</span>
+              <span className="material-symbols-outlined">skip_next</span>
             </IconButton>
           </div>
           <div className="AudioPlayer__flex">
-            <div id="currentTime">{timeFormat(audio.currentTime)}</div>
+            <div className="AudioPlayer__currentTime">{timeFormat(audio.currentTime)}</div>
             <div className="AudioPlayer__trackerContainer" onClick={(e) => clickTrackBar(e)}>
-              <div id="tracker" onClick={(e) => e.stopPropagation()}></div>
-              <div id="tracked" onClick={(e) => e.stopPropagation()} style={{ width: `${audio.trackPercent}%` }}></div>
+              <div id="tracker"></div>
+              <div id="tracked" style={{ width: `${audio.trackPercent}%` }}></div>
             </div>
-            <div id="totalTime">{timeFormat(audio.duration)}</div>
+            <div className="AudioPlayer__duration">{timeFormat(audio.duration)}</div>
           </div>
         </div>
       </div>
