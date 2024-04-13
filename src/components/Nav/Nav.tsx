@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '~/auth';
-import { Avatar, Button, Container } from '~/ui';
+import { Avatar, Button, Container, IconButton } from '~/ui';
 import './Nav.scss';
 
 export const Nav = () => {
@@ -59,16 +59,29 @@ export const Nav = () => {
             </>
           ) : (
             <>
-              <Link to="/signup">
-                <Button color="primary" size="sm">
-                  Sign Up
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button color="primary" size="sm" variant="raised">
-                  Login
-                </Button>
-              </Link>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <IconButton>
+                    <span className="material-symbols-outlined">menu</span>
+                  </IconButton>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Portal>
+                  <DropdownMenu.Content align="end" className="DropdownMenu__content" sideOffset={4}>
+                    <DropdownMenu.Item className="DropdownMenu__item" onClick={() => navigate('/signup')}>
+                      <div className="DropdownMenu__icon">
+                        <span className="material-symbols-outlined">person_add</span>
+                      </div>
+                      Sign Up
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item className="DropdownMenu__item" onClick={() => navigate('/login')}>
+                      <div className="DropdownMenu__icon">
+                        <span className="material-symbols-outlined">login</span>
+                      </div>
+                      Login
+                    </DropdownMenu.Item>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+              </DropdownMenu.Root>
             </>
           )}
         </div>
