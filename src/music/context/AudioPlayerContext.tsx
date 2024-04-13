@@ -1,4 +1,6 @@
 import React from 'react';
+import { useAuth } from '~/auth';
+import { http } from '~/http';
 import { Audio as AudioType } from '~/types';
 
 export type AudioPlayerContextType = {
@@ -25,11 +27,14 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
   const [playQueue, setPlayQueue] = React.useState<AudioType[]>([]);
   const [events, setEvents] = React.useState<any[]>([]);
   const [history, setHistory] = React.useState<AudioType[]>([]);
+  const [playTimeouts, setPlayTimeouts] = React.useState<any[]>([]);
   const [currentTime, setCurrentTime] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
   const [trackPercent, setTrackPercent] = React.useState(0);
 
   const instance = React.useRef<HTMLAudioElement>();
+
+  const { user } = useAuth();
 
   React.useEffect(() => {
     if (playQueue.length === 0) {
@@ -47,18 +52,19 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     pause();
     for (let i = 0; i < events.length; i++) {
       instance.current.removeEventListener(events[i].name, events[i].callback);
-      events.splice(i, 1);
-      setEvents(events);
     }
+    setEvents([]);
     try {
       instance.current.src = '';
     } finally {
       instance.current = undefined;
+      clearPlayTimeouts();
     }
   }
 
   function createAudio() {
     if (!instance.current) {
+      clearPlayTimeouts();
       instance.current = new Audio();
       // instance.current.crossOrigin = 'anonymous';
       instance.current.preload = 'metadata';
@@ -68,6 +74,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
       bind('ended', () => {
         setHistory([...history, playQueue[0]]);
         setPlayQueue((prevPlayQueue) => prevPlayQueue.slice(1));
+        trackAnalyticsEvent(playQueue[0], 'finished_song');
       });
       bind('timeupdate', () => {
         if (!instance.current) {
@@ -96,6 +103,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
       return;
     }
     instance.current.pause();
+    clearPlayTimeouts();
   }
 
   function play() {
@@ -103,6 +111,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
       return;
     }
     instance.current.play();
+    addPlayTimeout(playQueue[0]);
   }
 
   function back() {
@@ -137,6 +146,42 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     }
     setEvents([...events, { name: eventName, callback: eventCallback }]);
     instance.current.addEventListener(eventName, eventCallback);
+  }
+
+  function trackAnalyticsEvent(audio: AudioType, action: string) {
+    let metadata: any = {
+      song_id: audio.id,
+      song_length: audio.duration,
+      user_id: null,
+      user_is_staff: false,
+    };
+    if (user) {
+      metadata.user_id = user.id;
+      metadata.user_is_staff = user.is_staff;
+    }
+    http.post('/api/analytics/analytics_events/', {
+      category: 'music_engagement',
+      action,
+      label: `${audio.album.artist.name}: ${audio.title}`,
+      metadata: metadata,
+    });
+  }
+
+  function addPlayTimeout(audio: AudioType) {
+    const timeout = setTimeout(
+      () => {
+        trackAnalyticsEvent(audio, '30_second_song_play');
+      },
+      audio.duration < 31 ? audio.duration * 1000 : 30000,
+    );
+    setPlayTimeouts([...playTimeouts, timeout]);
+  }
+
+  function clearPlayTimeouts() {
+    playTimeouts.forEach((timeout) => {
+      clearTimeout(timeout);
+    });
+    setPlayTimeouts([]);
   }
 
   return (
