@@ -83,7 +83,7 @@ export const ArtistDetailRoute = () => {
                     })}
                     onClick={() => clickTrack(index)}
                   >
-                    <img src={track.album_thumbnail || ''} alt={track.title} />
+                    <img src={track.album.thumbnail || ''} alt={track.title} />
                     <div>{index + 1}</div>
                     <div className="flex-1">{track.title}</div>
                     <div>{track.total_plays}</div>

@@ -64,7 +64,7 @@ export const AlbumDetailRoute = () => {
               <h4>Album</h4>
               <h1>{album.title}</h1>
               <div>
-                By <Link to={`/artists/${album.artist_slug}`}>{album.artist_name}</Link>
+                By <Link to={`/artists/${album.artist.slug}`}>{album.artist.name}</Link>
               </div>
               <div>
                 {album.release_date} • {tracks.length} songs, {totalDuration()} min

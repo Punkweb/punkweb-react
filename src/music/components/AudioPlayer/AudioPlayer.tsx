@@ -37,14 +37,14 @@ export const AudioPlayer = () => {
       <div className="AudioPlayer__container">
         <div className="AudioPlayer__info hideOnMobile">
           <div className="AudioPlayer__image">
-            <img src={audio.playQueue[0].album_thumbnail || ''} alt={audio.playQueue[0].title} />
+            <img src={audio.playQueue[0].album.thumbnail || ''} alt={audio.playQueue[0].title} />
           </div>
           <div className="AudioPlayer__links">
-            <Link className="AudioPlayer__title" to={`/albums/${audio.playQueue[0].album_slug}`}>
+            <Link className="AudioPlayer__title" to={`/albums/${audio.playQueue[0].album.slug}`}>
               {audio.playQueue[0].title}
             </Link>
-            <Link className="AudioPlayer__artist" to={`/artists/${audio.playQueue[0].artist_slug}`}>
-              {audio.playQueue[0].artist_name}
+            <Link className="AudioPlayer__artist" to={`/artists/${audio.playQueue[0].album.artist.slug}`}>
+              {audio.playQueue[0].album.artist.name}
             </Link>
           </div>
         </div>

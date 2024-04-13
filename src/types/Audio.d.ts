@@ -1,11 +1,7 @@
+import { Album } from './Album';
+
 export type Audio = {
   id: string;
-  artist_name: string;
-  artist_slug: string;
-  album_slug: string;
-  album_release_date: string;
-  album_thumbnail: string | null;
-  album_thumbnail_lrg: string | null;
   duration: number;
   total_plays: number;
   uploaded_at: string;
@@ -16,5 +12,5 @@ export type Audio = {
   _bbcode_lyrics_rendered: string;
   bbcode_lyrics: string;
   file: string;
-  album: string;
+  album: Album;
 };

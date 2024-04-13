@@ -1,8 +1,8 @@
+import { Artist } from './Artist';
+
 export type ArtistEvent = {
   id: string;
   thumbnail: string | null;
-  artist_name: string;
-  artist_slug: string;
   created: string;
   modified: string;
   address_line: string | null;
@@ -14,5 +14,5 @@ export type ArtistEvent = {
   venue: string;
   event_date: string;
   event_image: string | null;
-  artist: string;
+  artist: Artist;
 };
