@@ -1,4 +1,6 @@
 import React from 'react';
+import { useAuth } from '~/auth';
+import { http } from '~/http';
 import { Audio as PunkwebAudio } from '~/types';
 
 export type AudioPlayerContextType = {
@@ -25,6 +27,10 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
   const [currentTime, setCurrentTime] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
 
+  const playTimerRef = React.useRef<NodeJS.Timeout>();
+
+  const { user } = useAuth();
+
   React.useEffect(() => {
     createAudio();
   }, []);
@@ -41,6 +47,13 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     }
 
     load(playQueue[0].file);
+
+    playTimerRef.current = setTimeout(
+      () => {
+        trackAnalyticsEvent(playQueue[0], '30_second_song_play');
+      },
+      playQueue[0].duration < 31 ? playQueue[0].duration * 1000 : 30000,
+    );
 
     if ('mediaSession' in navigator) {
       const track = playQueue[0];
@@ -68,20 +81,38 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
       navigator.mediaSession.setActionHandler('previoustrack', back);
       navigator.mediaSession.setActionHandler('nexttrack', next);
     }
+
+    return () => {
+      if (playTimerRef.current) {
+        clearTimeout(playTimerRef.current);
+      }
+    };
   }, [playQueue]);
 
   function createAudio() {
     const audio = new Audio();
+
     audio.addEventListener('canplaythrough', () => {
       audio.play();
+    });
+    audio.addEventListener('pause', () => {
+      if (playTimerRef.current) {
+        clearTimeout(playTimerRef.current);
+      }
     });
     audio.addEventListener('timeupdate', () => {
       setCurrentTime(audio.currentTime);
       setDuration(audio.duration);
     });
     audio.addEventListener('ended', () => {
-      setHistory([...history, playQueue[0]]);
-      setPlayQueue((prevPlayQueue) => prevPlayQueue.slice(1));
+      if (playTimerRef.current) {
+        clearTimeout(playTimerRef.current);
+      }
+      setPlayQueue((prevPlayQueue) => {
+        setHistory([...history, prevPlayQueue[0]]);
+        trackAnalyticsEvent(prevPlayQueue[0], 'finished_song');
+        return prevPlayQueue.slice(1);
+      });
     });
     setInstance(audio);
   }
@@ -123,6 +154,25 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
       return;
     }
     instance.currentTime = time;
+  }
+
+  function trackAnalyticsEvent(audio: PunkwebAudio, action: string) {
+    let metadata: any = {
+      song_id: audio.id,
+      song_length: audio.duration,
+      user_id: null,
+      user_is_staff: false,
+    };
+    if (user) {
+      metadata.user_id = user.id;
+      metadata.user_is_staff = user.is_staff;
+    }
+    http.post('/api/analytics/analytics_events/', {
+      category: 'music_engagement',
+      action,
+      label: `${audio.album.artist.name}: ${audio.title}`,
+      metadata: metadata,
+    });
   }
 
   return (
