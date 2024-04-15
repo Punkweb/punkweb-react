@@ -50,8 +50,10 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
         album: track.album.title,
         artwork: [
           {
+            src: track.album.cover_art || '',
+          },
+          {
             src: track.album.thumbnail || '',
-            sizes: '200x200',
           },
         ],
       });
