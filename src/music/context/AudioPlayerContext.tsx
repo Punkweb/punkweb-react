@@ -74,7 +74,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
       bind('ended', () => {
         setHistory([...history, playQueue[0]]);
         setPlayQueue((prevPlayQueue) => prevPlayQueue.slice(1));
-        trackAnalyticsEvent(playQueue[0], 'finished_song');
+        // trackAnalyticsEvent(playQueue[0], 'finished_song');
       });
       bind('timeupdate', () => {
         if (!instance.current) {
@@ -170,7 +170,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
   function addPlayTimeout(audio: AudioType) {
     const timeout = setTimeout(
       () => {
-        trackAnalyticsEvent(audio, '30_second_song_play');
+        // trackAnalyticsEvent(audio, '30_second_song_play');
       },
       audio.duration < 31 ? audio.duration * 1000 : 30000,
     );
