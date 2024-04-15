@@ -1,11 +1,11 @@
+import clsx from 'clsx';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ListResponse, http } from '~/http';
-import { useAudioPlayer } from '~/music';
 import { Album, Artist, Audio } from '~/types';
 import { Button, Card, Container, TabItem, Tabs } from '~/ui';
+import { useAudioPlayer } from '../../context';
 import './ArtistDetailRoute.scss';
-import clsx from 'clsx';
 
 export const ArtistDetailRoute = () => {
   const [artist, setArtist] = React.useState<Artist>();

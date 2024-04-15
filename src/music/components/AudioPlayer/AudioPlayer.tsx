@@ -25,7 +25,7 @@ export const AudioPlayer = () => {
     let width = target.clientWidth;
     let clickPercent = x / width;
     let toDuration = audio.duration * clickPercent;
-    audio.setTime(toDuration);
+    audio.currentTime = toDuration;
   }
 
   if (audio.playQueue.length === 0) {
@@ -55,17 +55,15 @@ export const AudioPlayer = () => {
             </IconButton>
             <IconButton
               onClick={() => {
-                if (audio.instance.current?.paused) {
-                  audio.play();
+                if (audio.instance?.paused) {
+                  audio.instance?.play();
                 } else {
-                  audio.pause();
+                  audio.instance?.pause();
                 }
               }}
               variant="raised"
             >
-              <span className="material-symbols-outlined">
-                {audio.instance.current?.paused ? 'play_arrow' : 'pause'}
-              </span>
+              <span className="material-symbols-outlined">{audio.instance?.paused ? 'play_arrow' : 'pause'}</span>
             </IconButton>
             <IconButton onClick={() => audio.next()}>
               <span className="material-symbols-outlined">skip_next</span>
@@ -75,7 +73,7 @@ export const AudioPlayer = () => {
             <div className="AudioPlayer__currentTime">{timeFormat(audio.currentTime)}</div>
             <div className="AudioPlayer__trackerContainer" onClick={(e) => clickTrackBar(e)}>
               <div id="tracker"></div>
-              <div id="tracked" style={{ width: `${audio.trackPercent}%` }}></div>
+              <div id="tracked" style={{ width: `${(audio.currentTime / audio.duration) * 100}%` }}></div>
             </div>
             <div className="AudioPlayer__duration">{timeFormat(audio.duration)}</div>
           </div>
