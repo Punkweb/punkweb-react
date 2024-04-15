@@ -3,13 +3,14 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ListResponse, http } from '~/http';
 import { Album, Audio } from '~/types';
-import { Card, Container } from '~/ui';
+import { Card, Container, Spinner } from '~/ui';
 import { useAudioPlayer } from '../../context';
 import './AlbumDetailRoute.scss';
 
 export const AlbumDetailRoute = () => {
   const [album, setAlbum] = React.useState<Album>();
   const [tracks, setTracks] = React.useState<Audio[]>([]);
+  const [tracksLoading, setTracksLoading] = React.useState(true);
   const audio = useAudioPlayer();
 
   const { slug } = useParams();
@@ -17,6 +18,7 @@ export const AlbumDetailRoute = () => {
   React.useEffect(() => {
     http.get<Album>(`/api/albums/${slug}/`).then((album) => {
       setAlbum(album.data);
+      setTracksLoading(true);
       http
         .get<ListResponse<Audio>>(`/api/audio/`, {
           params: {
@@ -25,6 +27,9 @@ export const AlbumDetailRoute = () => {
         })
         .then((tracks) => {
           setTracks(tracks.data.results);
+        })
+        .finally(() => {
+          setTracksLoading(false);
         });
     });
   }, []);
@@ -49,7 +54,11 @@ export const AlbumDetailRoute = () => {
   }
 
   if (!album) {
-    return null;
+    return (
+      <Container>
+        <Spinner className="mt-8" message="Loading..." />
+      </Container>
+    );
   }
 
   return (
@@ -71,37 +80,41 @@ export const AlbumDetailRoute = () => {
               </div>
             </div>
           </div>
-          <table className="AlbumDetailRoute__table">
-            <colgroup>
-              <col width="50px" />
-              <col />
-              <col width="100px" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th className="text-center">#</th>
-                <th>Title</th>
-                <th className="text-center">
-                  <span className="material-symbols-outlined">schedule</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {tracks.map((track, index) => (
-                <tr
-                  key={track.id}
-                  className={clsx({
-                    'AlbumDetailRoute__table--active': audio.playQueue[0]?.id === track.id,
-                  })}
-                  onClick={() => clickSong(index)}
-                >
-                  <td>{track.track_num}</td>
-                  <td>{track.title}</td>
-                  <td>{display(track.duration)}</td>
+          {tracksLoading ? (
+            <Spinner className="mt-8" message="Loading tracks..." />
+          ) : (
+            <table className="AlbumDetailRoute__table">
+              <colgroup>
+                <col width="50px" />
+                <col />
+                <col width="100px" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th className="text-center">#</th>
+                  <th>Title</th>
+                  <th className="text-center">
+                    <span className="material-symbols-outlined">schedule</span>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tracks.map((track, index) => (
+                  <tr
+                    key={track.id}
+                    className={clsx({
+                      'AlbumDetailRoute__table--active': audio.playQueue[0]?.id === track.id,
+                    })}
+                    onClick={() => clickSong(index)}
+                  >
+                    <td>{track.track_num}</td>
+                    <td>{track.title}</td>
+                    <td>{display(track.duration)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </Card>
       </Container>
     </>

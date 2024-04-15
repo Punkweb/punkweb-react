@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import React from 'react';
 import { http } from '~/http';
 import { User } from '~/types';
+import { Spinner } from '~/ui';
 
 export type SignUpRequest = {
   username: string;
@@ -80,7 +81,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   if (userLoading) {
-    return <p>Loading...</p>;
+    return <Spinner className="mt-8" message="Loading..." />;
   }
 
   return (
