@@ -6,6 +6,7 @@ import { Album, Artist, Audio } from '~/types';
 import { Button, Card, Container, Spinner, TabItem, Tabs } from '~/ui';
 import { useAudioPlayer } from '../../context';
 import './ArtistDetailRoute.scss';
+import { formatDateString } from '~/utils/dateString';
 
 export const ArtistDetailRoute = () => {
   const [artist, setArtist] = React.useState<Artist>();
@@ -136,7 +137,7 @@ export const ArtistDetailRoute = () => {
                         <img src={album.thumbnail || ''} alt={album.title} />
                         <h5>{album.title}</h5>
                       </Link>
-                      <p>{album.release_date}</p>
+                      <p>{formatDateString(album.release_date, 'yyyy-MM-dd', 'yyyy')}</p>
                     </div>
                   ))}
                 </div>

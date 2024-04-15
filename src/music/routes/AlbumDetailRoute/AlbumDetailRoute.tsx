@@ -6,6 +6,7 @@ import { Album, Audio } from '~/types';
 import { Card, Container, Spinner } from '~/ui';
 import { useAudioPlayer } from '../../context';
 import './AlbumDetailRoute.scss';
+import { formatDateString } from '~/utils/dateString';
 
 export const AlbumDetailRoute = () => {
   const [album, setAlbum] = React.useState<Album>();
@@ -76,7 +77,8 @@ export const AlbumDetailRoute = () => {
                 By <Link to={`/artists/${album.artist.slug}`}>{album.artist.name}</Link>
               </div>
               <div>
-                {album.release_date} • {tracks.length} songs, {totalDuration()} min
+                {formatDateString(album.release_date, 'yyyy-MM-dd', 'MM/dd/yyyy')} • {tracks.length} songs,{' '}
+                {totalDuration()} min
               </div>
             </div>
           </div>
