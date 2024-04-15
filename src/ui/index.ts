@@ -9,5 +9,6 @@ export * from './RadixPopover/RadixPopover';
 export * from './RadixTooltip/RadixTooltip';
 export * from './SearchDropdown/SearchDropdown';
 export * from './Select/Select';
+export * from './Spinner/Spinner';
 export * from './Tabs/TabItem';
 export * from './Tabs/Tabs';
