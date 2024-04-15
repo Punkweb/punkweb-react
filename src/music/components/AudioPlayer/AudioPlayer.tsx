@@ -25,7 +25,7 @@ export const AudioPlayer = () => {
     let width = target.clientWidth;
     let clickPercent = x / width;
     let toDuration = audio.duration * clickPercent;
-    audio.currentTime = toDuration;
+    audio.setTime(toDuration);
   }
 
   if (audio.playQueue.length === 0) {

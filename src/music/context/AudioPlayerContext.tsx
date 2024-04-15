@@ -9,6 +9,7 @@ export type AudioPlayerContextType = {
   next: () => void;
   playQueue: PunkwebAudio[];
   setPlayQueue: React.Dispatch<React.SetStateAction<PunkwebAudio[]>>;
+  setTime: (time: number) => void;
 };
 
 export const AudioPlayerContext = React.createContext<AudioPlayerContextType | undefined>(undefined);
@@ -117,6 +118,13 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
     setPlayQueue((prevPlayQueue) => prevPlayQueue.slice(1));
   }
 
+  function setTime(time: number) {
+    if (!instance) {
+      return;
+    }
+    instance.currentTime = time;
+  }
+
   return (
     <AudioPlayerContext.Provider
       value={{
@@ -127,6 +135,7 @@ export const AudioPlayerProvider = ({ children }: AudioPlayerProviderProps) => {
         next,
         playQueue,
         setPlayQueue,
+        setTime,
       }}
     >
       {children}
