@@ -1,4 +1,4 @@
-@import '~/scss/mixins';
+@import 'punkweb-ui/scss/mixins';
 @import '~/scss/variables';
 
 .AudioPlayer {
@@ -95,7 +95,7 @@
   }
 
   #tracked {
-    background-color: oc-get-color('primary', '9');
+    background-color: var(--primary-9);
     border-radius: 0.25rem;
     height: 0.5rem;
     left: 0;

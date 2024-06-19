@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-import './Button.scss';
 
 export type ButtonColor =
   | 'primary'
@@ -18,7 +17,7 @@ export type ButtonColor =
   | 'yellow'
   | 'orange';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ButtonVariant = 'text' | 'outlined' | 'ghost' | 'raised';
+export type ButtonVariant = 'default' | 'outlined' | 'ghost' | 'raised';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: ButtonColor;
@@ -30,19 +29,28 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export const Button = React.forwardRef(
   (
-    { className, color = 'gray', fluid, rounded, size = 'md', type = 'button', variant = 'text', ...rest }: ButtonProps,
+    {
+      className,
+      color = 'gray',
+      fluid,
+      rounded,
+      size = 'md',
+      type = 'button',
+      variant = 'default',
+      ...rest
+    }: ButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement>,
   ) => {
     return (
       <button
         className={clsx(
-          'Button',
+          'pw-button',
           {
-            'Button--fluid': fluid,
-            'Button--rounded': rounded,
-            [`Button--color--${color}`]: color,
-            [`Button--size--${size}`]: size,
-            [`Button--variant--${variant}`]: variant,
+            fluid: fluid,
+            rounded: rounded,
+            [`${color}`]: color,
+            [`${size}`]: size,
+            [`${variant}`]: variant,
           },
           className,
         )}

@@ -1,5 +1,4 @@
 import React from 'react';
-import './Spinner.scss';
 import clsx from 'clsx';
 
 export type SpinnerProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -8,9 +7,9 @@ export type SpinnerProps = React.HTMLAttributes<HTMLDivElement> & {
 
 export const Spinner = ({ className, message, ...rest }: SpinnerProps) => {
   return (
-    <div className="Spinner__container">
-      <div className={clsx('Spinner', className)} {...rest}></div>
-      {message && <div className="Spinner__message">{message}</div>}
+    <div className="pw-spinner-container">
+      <div className={clsx('pw-spinner', className)} {...rest}></div>
+      {message && <div className="pw-spinner-message">{message}</div>}
     </div>
   );
 };

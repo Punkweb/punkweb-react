@@ -1,4 +1,4 @@
-@import '~/scss/mixins';
+@import 'punkweb-ui/scss/mixins';
 @import '~/scss/variables';
 
 .TabItem {
@@ -13,7 +13,7 @@
   padding: 0.75rem 1rem;
 
   &--active {
-    border-color: oc-get-color('primary', '9');
-    color: oc-get-color('primary', '9');
+    border-color: var(--primary-9);
+    color: var(--primary-9);
   }
 }

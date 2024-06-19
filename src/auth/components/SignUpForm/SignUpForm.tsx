@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Button, Input } from '~/ui';
 import { SignUpRequest, useAuth } from '../../context';
-import './SignUpForm.scss';
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ export const SignUpForm = () => {
   }
 
   return (
-    <form className="SignUpForm" onSubmit={signUpForm.handleSubmit(onSubmit)}>
+    <form className="flex flex-column gap-4" onSubmit={signUpForm.handleSubmit(onSubmit)}>
       <Input
         fluid
         id="username"

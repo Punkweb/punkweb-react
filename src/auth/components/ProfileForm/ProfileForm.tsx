@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Button, Input } from '~/ui';
 import { useAuth } from '../../context';
-import './ProfileForm.scss';
 
 export type ProfileFormData = {
   first_name: string;
@@ -34,7 +33,7 @@ export const ProfileForm = () => {
   }
 
   return (
-    <form className="ProfileForm" onSubmit={profileForm.handleSubmit(onSubmit)}>
+    <form className="flex flex-column gap-4" onSubmit={profileForm.handleSubmit(onSubmit)}>
       <Input fluid id="username" label="Username" readOnly value={user?.username} />
       <Input
         fluid

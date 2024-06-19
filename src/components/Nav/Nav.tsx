@@ -20,7 +20,7 @@ export const Nav = () => {
       <Container>
         <div className="Nav__content">
           <Link to="/">
-            <h1>Punkweb</h1>
+            <h1 className="m-0">Punkweb</h1>
           </Link>
           <Link to="/">
             <Button color="primary" size="sm">
@@ -37,7 +37,7 @@ export const Nav = () => {
             <>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
-                  <Avatar user={user} />
+                  <Avatar user={user} size="xs" />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Portal>
                   <DropdownMenu.Content align="end" className="DropdownMenu__content" sideOffset={4}>

@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-import './IconButton.scss';
 
 export type IconButtonColor =
   | 'primary'
@@ -43,12 +42,12 @@ export const IconButton = React.forwardRef(
     return (
       <button
         className={clsx(
-          'IconButton',
+          'pw-icon-button',
           {
-            'IconButton--rounded': rounded,
-            [`IconButton--color--${color}`]: color,
-            [`IconButton--size--${size}`]: size,
-            [`IconButton--variant--${variant}`]: variant,
+            rounded: rounded,
+            [`${color}`]: color,
+            [`${size}`]: size,
+            [`${variant}`]: variant,
           },
           className,
         )}

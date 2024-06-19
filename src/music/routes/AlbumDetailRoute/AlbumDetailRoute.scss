@@ -1,4 +1,4 @@
-@import '~/scss/mixins';
+@import 'punkweb-ui/scss/mixins';
 @import '~/scss/variables';
 
 .AlbumDetailRoute {
@@ -14,8 +14,8 @@
     width: 100%;
 
     &--active {
-      border-color: oc-get-color('primary', '9') !important;
-      color: oc-get-color('primary', '9') !important;
+      border-color: var(--primary-9) !important;
+      color: var(--primary-9) !important;
     }
 
     thead {

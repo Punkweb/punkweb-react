@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Button, Input } from '~/ui';
 import { PasswordChangeRequest, useAuth } from '../../context';
-import './PasswordChangeForm.scss';
 
 export const PasswordChangeForm = () => {
   const passwordChangeForm = useForm<PasswordChangeRequest>();
@@ -26,7 +25,7 @@ export const PasswordChangeForm = () => {
   }
 
   return (
-    <form className="PasswordChangeForm" onSubmit={passwordChangeForm.handleSubmit(onSubmit)}>
+    <form className="flex flex-column gap-4" onSubmit={passwordChangeForm.handleSubmit(onSubmit)}>
       <Input
         fluid
         id="current_password"

@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-import './Card.scss';
 
 export type CardRadius = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -17,9 +16,9 @@ export const Card = React.forwardRef(
     return (
       <div
         className={clsx(
-          'Card',
+          'pw-card',
           {
-            'Card--fluid': fluid,
+            fluid: fluid,
             [`radius-${radius}`]: radius,
             [`shadow-${shadow}`]: shadow,
           },
